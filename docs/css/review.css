@@ -1,0 +1,286 @@
+/* The review screen: uploaded files and the type each one was given. */
+
+/* ---------- review screen: uploaded files and the type each was given ---------- */
+#review {
+  position: fixed;
+  inset: 0;
+  z-index: 32;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#review.on {
+  opacity: 1;
+}
+#review button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+#review button:focus-visible,
+#review select:focus-visible,
+#review input:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 2px;
+}
+.rv-main {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: clamp(18px, 3vw, 34px) clamp(16px, 3vw, 40px);
+}
+.rv-wrap {
+  max-width: 940px;
+  margin: 0 auto;
+}
+.rv-h {
+  margin: 0;
+  font: 500 clamp(22px, 2.6vw, 30px)/1.15 var(--display);
+  letter-spacing: -0.02em;
+}
+.rv-lead {
+  max-width: 620px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.rv-list {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.rv-row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) minmax(230px, 300px) 30px;
+  gap: 6px 16px;
+  align-items: center;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  background: rgba(211, 227, 227, 0.04);
+}
+#review.on .rv-list.fresh .rv-row {
+  animation: rv-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc(120ms + var(--i, 0) * 45ms);
+}
+@keyframes rv-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.rv-thumb {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0b272c;
+  color: var(--glow);
+  font: 500 10px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.rv-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rv-name {
+  min-width: 0;
+}
+.rv-name strong {
+  display: block;
+  font: 500 16px/1.3 var(--display);
+  color: var(--mist);
+  overflow-wrap: anywhere;
+}
+.rv-name small {
+  display: block;
+  margin-top: 2px;
+  color: var(--faint);
+  font: 500 9.5px var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rv-type {
+  min-width: 0;
+}
+.rv-type label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--faint);
+  font: 600 9px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rv-type select,
+.rv-type input {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: 0;
+  background: #06181a;
+  color: var(--mist);
+  font: 400 14px var(--sans);
+}
+.rv-type select:hover,
+.rv-type select:focus,
+.rv-type input:focus {
+  border-color: var(--glow);
+}
+.rv-new {
+  display: flex;
+  gap: 6px;
+}
+.rv-new input {
+  flex: 1;
+}
+#review .rv-new button {
+  flex: none;
+  height: 38px;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid var(--accent-line);
+  border-radius: 0;
+  background: none;
+  color: var(--glow);
+  font: 600 10px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+#review .rv-new button.save {
+  border-color: var(--oxide-hi);
+  background: var(--oxide);
+  color: var(--mist);
+}
+.rv-why {
+  display: block;
+  min-height: 15px;
+  margin-top: 4px;
+  color: var(--faint);
+  font-size: 11px;
+}
+.rv-why.err {
+  color: #f08a76;
+}
+#review .rv-rm {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--faint);
+  font: 400 20px/28px var(--sans);
+}
+#review .rv-rm:hover {
+  color: var(--mist);
+  background: rgba(211, 227, 227, 0.1);
+}
+.rv-none {
+  margin: 22px 0 0;
+  padding: 26px;
+  border: 1px dashed var(--accent-line);
+  color: var(--muted);
+  text-align: center;
+  font-size: 14px;
+}
+.rv-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px clamp(16px, 3vw, 40px);
+  border-top: 1px solid var(--line);
+  background: rgba(5, 15, 16, 0.7);
+}
+#rvSum {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+#review #rvCancel {
+  margin: 0;
+  padding: 12px 18px;
+  border: 1px solid var(--accent-line);
+  border-radius: 0;
+  background: none;
+  font: 600 10px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+#review #rvCancel:hover {
+  border-color: var(--glow);
+}
+#review #rvGo {
+  margin: 0;
+  padding: 13px 40px;
+  border: 1px solid #c0432b;
+  border-radius: 0;
+  background: linear-gradient(#a12a17, var(--oxide));
+  color: #fff8f2;
+  font: 600 13px var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.18);
+}
+#review #rvGo:hover {
+  background: linear-gradient(#b5321d, var(--oxide-hi));
+}
+#review #rvGo:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+@media (max-width: 640px) {
+  .rv-row {
+    grid-template-columns: 44px minmax(0, 1fr) 30px;
+    padding: 10px;
+  }
+  .rv-thumb {
+    width: 44px;
+    height: 44px;
+  }
+  .rv-type {
+    grid-column: 1/-1;
+    grid-row: 2;
+  }
+  .rv-rm {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .rv-type select,
+  .rv-type input {
+    font-size: 16px;
+  }
+  #rvSum {
+    font-size: 12px;
+  }
+  #review #rvGo {
+    padding: 13px 26px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #review {
+    transition: none;
+  }
+  #review.on .rv-list.fresh .rv-row {
+    animation: none;
+  }
+}

@@ -1,0 +1,8 @@
+timestamp,camera_id,event,vehicle_color,vehicle_type,plate_partial,confidence
+2026-10-02 23:12:40,LOTA-GATE-01,entry,white,suv,7XK***,0.91
+2026-10-02 23:20:05,LOTA-GATE-01,entry,black,pickup,PLM***,0.88
+2026-10-02 23:24:51,LOTA-GATE-01,entry,blue,sedan,KT*-8**,0.62
+2026-10-02 23:38:19,LOTA-GATE-01,exit,silver,hatchback,BNR***,0.90
+2026-10-02 23:47:33,LOTA-GATE-01,exit,blue,sedan,KT*-8**,0.58
+2026-10-02 23:52:10,LOTA-GATE-01,exit,black,pickup,PLM***,0.87
+2026-10-03 00:03:44,LOTA-GATE-01,exit,white,suv,7XK***,0.92

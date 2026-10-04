@@ -1,0 +1,298 @@
+/* The cabinets list beside the drawer, and the animation that switches between two cabinets. */
+
+/* cabinets: a list beside the drawer, with the option to add one */
+#rail {
+  display: none;
+  gap: 8px;
+  font-family: var(--mono);
+}
+#page.archive-open #rail {
+  display: flex;
+  animation: rail-in 0.5s ease 0.45s backwards;
+}
+@keyframes rail-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+.rail-k {
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding-bottom: 4px;
+}
+#rail .cab {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 11px;
+  row-gap: 2px;
+  align-items: baseline;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+#rail .cab b {
+  grid-row: 1/3;
+  align-self: center;
+  min-width: 22px;
+  font: 500 20px var(--display);
+  color: var(--glow);
+  font-variant-numeric: tabular-nums;
+}
+#rail .cab span {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  white-space: nowrap;
+}
+#rail .cab small {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  white-space: nowrap;
+}
+#rail .cab:hover {
+  border-color: var(--accent-line);
+}
+#rail .cab.on {
+  border-color: var(--accent);
+  background: rgba(68, 134, 144, 0.16);
+}
+#rail .cab.new {
+  border-style: dashed;
+  border-color: var(--accent-line);
+}
+#rail .cab.new:hover {
+  border-color: var(--glow);
+}
+#rail .cab:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 2px;
+}
+#rail .cab:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+#rail .cab span {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+#rail .cab-form {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--glow);
+}
+#rail .cab-form label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+#rail .cab-form input {
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid var(--accent-line);
+  border-radius: 0;
+  background: rgba(3, 10, 11, 0.5);
+  color: var(--mist);
+  font: 400 13px var(--sans);
+  outline: none;
+}
+#rail .cab-form input:focus {
+  border-color: var(--glow);
+}
+#rail .cab-form input::placeholder {
+  color: rgba(211, 227, 227, 0.34);
+}
+#rail .cab-form .err {
+  font: 400 11px/1.35 var(--sans);
+  color: #f08a76;
+}
+#rail .cab-form .err:empty {
+  display: none;
+}
+#rail .cab-form .row {
+  display: flex;
+  gap: 6px;
+}
+#rail .mini {
+  flex: 1;
+  margin: 0;
+  padding: 8px 6px;
+  border: 1px solid var(--accent-line);
+  border-radius: 0;
+  background: none;
+  color: var(--glow);
+  font: inherit;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#rail .mini:hover {
+  border-color: var(--glow);
+}
+#rail .mini.go {
+  border-color: var(--oxide-hi);
+  background: var(--oxide);
+  color: var(--mist);
+}
+#rail .mini.go:hover {
+  background: var(--oxide-hi);
+}
+#rail .mini:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 2px;
+}
+@media (min-width: 1100px) {
+  .bay {
+    width: min(900px, 100%, calc(100vw - 460px));
+  }
+  #rail {
+    position: absolute;
+    right: calc(100% + 24px);
+    top: 33px;
+    width: 166px;
+    flex-direction: column;
+  }
+}
+@media (max-width: 1099px) {
+  #rail {
+    flex: none;
+    flex-direction: row;
+    overflow-x: auto;
+    margin-bottom: 10px;
+    padding-bottom: 2px;
+  }
+  #page.archive-open .desk-rule {
+    display: none;
+  }
+  .rail-k {
+    display: none;
+  }
+  #rail .cab {
+    flex: none;
+    grid-template-columns: auto auto;
+    padding: 7px 11px;
+  }
+  #rail .cab b {
+    grid-row: auto;
+    min-width: 0;
+    font-size: 15px;
+  }
+  #rail .cab small {
+    display: none;
+  }
+  #rail .cab span {
+    white-space: nowrap;
+  }
+  #rail .cab-form {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 6px;
+  }
+  #rail .cab-form label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  #rail .cab-form input {
+    width: 168px;
+    height: 30px;
+    font-size: 16px;
+  }
+  #rail .cab-form .mini {
+    flex: none;
+    padding: 8px 9px;
+  }
+}
+/* switching cabinets: the camera eases back as the drawer shuts, the two cabinets trade places side by side,
+   and the new drawer opens with a gentler push than the sign-in one. Every stage overlaps the next. */
+#page.swapping .frame {
+  transition:
+    opacity 0.42s ease 0.34s,
+    transform 0.62s cubic-bezier(0.3, 0.7, 0.2, 1) 0.34s;
+}
+#page.swapping #deck {
+  transform: scale(0.86);
+  transition:
+    opacity 0.3s ease-in,
+    transform 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0.34s;
+}
+#page.swapping.deck-on .frame {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.2);
+  transition:
+    opacity 0.32s ease-in 0.1s,
+    transform 0.55s cubic-bezier(0.4, 0, 0.6, 1),
+    visibility 0s linear 0.44s;
+}
+#page.swapping.deck-on #deck {
+  transform: none;
+  transition:
+    opacity 0.5s ease 0.46s,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.46s,
+    visibility 0s linear 0.46s;
+}
+#page.swapping.deck-on .case {
+  animation-delay: calc(600ms + var(--i) * 80ms);
+}
+.frame.ghost {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: cab-out 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+#page.cab-in .frame:not(.ghost) {
+  animation: cab-in 0.9s cubic-bezier(0.65, 0, 0.35, 1) backwards;
+}
+@keyframes cab-out {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes cab-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+/* while cabinets pass through, the window's side edges fade out so they are not cut off sharply */
+#page.swapping .stagewrap {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+#page.swapping #world,
+#page.swapping #world * {
+  pointer-events: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #page.archive-open #rail {
+    animation: none;
+  }
+}

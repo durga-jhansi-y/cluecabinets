@@ -1,0 +1,668 @@
+/* The open drawer, seen from the front: its bars, the stack of case files, and the sort menu. */
+
+/* ---------- open drawer: front-on view of the case files ---------- */
+#deck {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  transform-origin: 50% 58%;
+  transition:
+    opacity 0.36s ease-in 0.22s,
+    transform 0.6s cubic-bezier(0.7, 0, 0.84, 0),
+    visibility 0s linear 0.6s;
+  font-family: var(--mono);
+}
+#page.deck-on #deck {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.5s ease 0.46s,
+    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.46s,
+    visibility 0s linear 0.46s;
+}
+.deck-top,
+.deck-front {
+  flex: none;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+  border: 1px solid rgba(127, 184, 192, 0.22);
+  background: linear-gradient(#1d484f, #12343a);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.07);
+}
+.deck-top {
+  height: 46px;
+  border-radius: 3px 3px 0 0;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.07),
+    0 10px 18px rgba(0, 0, 0, 0.45);
+}
+.deck-front {
+  height: 58px;
+  border-radius: 0 0 3px 3px;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.09),
+    0 -12px 20px rgba(0, 0, 0, 0.5);
+}
+.deck-tools {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+#deck button.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding: 8px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#deck button.tool:hover {
+  color: var(--mist);
+}
+#deck button.tool svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+#deck button:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: 3px;
+}
+#sortBtn .sm {
+  display: none;
+}
+.sort-wrap {
+  position: relative;
+  display: inline-flex;
+}
+#deck #sortBtn .caret {
+  width: 11px;
+  height: 11px;
+  margin-left: -3px;
+  transition: transform 0.2s;
+}
+#deck #sortBtn[aria-expanded="true"] .caret {
+  transform: rotate(180deg);
+}
+#sortMenu {
+  position: absolute;
+  right: -9px;
+  top: calc(100% + 7px);
+  z-index: 6;
+  display: grid;
+  gap: 2px;
+  min-width: 236px;
+  padding: 6px;
+  border: 1px solid rgba(127, 184, 192, 0.32);
+  background: #0b272c;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  animation: menu-in 0.16s ease-out;
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+#sortMenu .k {
+  padding: 6px 10px 5px;
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+}
+#deck #sortMenu button {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  margin: 0;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#sortMenu button::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+}
+#sortMenu button small {
+  margin-left: auto;
+  padding-left: 14px;
+  color: var(--faint);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+}
+#deck #sortMenu button:hover {
+  color: var(--mist);
+  background: rgba(68, 134, 144, 0.14);
+}
+#deck #sortMenu button[aria-checked="true"] {
+  color: var(--mist);
+  background: rgba(68, 134, 144, 0.22);
+}
+#sortMenu button[aria-checked="true"]::before {
+  background: var(--glow);
+  border-color: var(--glow);
+}
+#deck #sortMenu button:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: -2px;
+}
+#page.deck-on #files.quick .case {
+  animation-delay: calc(var(--i) * 55ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  #sortMenu {
+    animation: none;
+  }
+}
+.deck-pull {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 17px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(127, 184, 192, 0.6);
+  border-top-color: rgba(127, 184, 192, 0.3);
+  border-radius: 2px 2px 10px 10px;
+  background: #071516;
+  box-shadow:
+    inset 0 -3px 5px rgba(0, 0, 0, 0.6),
+    0 1px rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+.deck-pull:hover {
+  border-color: var(--mist);
+}
+.deck-well {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  margin: 0 12px;
+  background: linear-gradient(#030b0c, #06191b);
+}
+.deck-well::before,
+.deck-well::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 13px;
+  background: linear-gradient(90deg, #0c2529, #163a40, #0c2529);
+  z-index: 0;
+}
+.deck-well::before {
+  left: 0;
+}
+.deck-well::after {
+  right: 0;
+}
+#files {
+  position: absolute;
+  inset: 0;
+  --pitch: 80px;
+  --lift: 72px;
+  --lead: 86px;
+}
+.case {
+  position: absolute;
+  left: 6.5%;
+  right: 6.5%;
+  top: calc(var(--lead) + var(--i) * var(--pitch));
+  bottom: -90px;
+  min-height: 280px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.case.lift {
+  transform: translateY(calc(var(--lift) * -1));
+}
+.case.down {
+  transform: translateY(var(--down, 46px));
+}
+.case-tab,
+.case-body {
+  background: linear-gradient(var(--file-hi), var(--file));
+  transition: filter 0.3s;
+}
+.case-tab {
+  position: absolute;
+  left: var(--x);
+  top: -30px;
+  width: 18%;
+  min-width: 112px;
+  height: 31px;
+  box-sizing: border-box;
+  padding: 0 0 0 22px;
+  border-radius: 8px 8px 0 0;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.4),
+    0 -4px 10px rgba(0, 0, 0, 0.25);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  line-height: 34px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.case-body {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0 34px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(var(--file-hi), var(--file) 90px);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.4),
+    0 -8px 20px rgba(0, 0, 0, 0.4);
+}
+.case.lift .case-tab,
+.case.lift .case-body {
+  filter: brightness(1.05);
+}
+.case-head {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  height: var(--pitch);
+  padding-right: 44px;
+}
+.case-head small {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.case-head strong {
+  max-width: 50%;
+  font: 500 clamp(19px, calc(var(--pitch) * 0.34), 27px)/1.12 var(--display);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.case .dot {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--dot);
+  box-shadow:
+    0 0 0 4px rgba(7, 21, 22, 0.16),
+    inset 0 0 0 1px rgba(7, 21, 22, 0.25);
+}
+.case-more {
+  display: grid;
+  grid-template-columns: 36% 1fr;
+  gap: 6px 24px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(7, 21, 22, 0.26);
+}
+.case .meta {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+.case .sum {
+  font: 500 15px/1.4 var(--display);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: 42px;
+}
+.case-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.case-foot > span:first-child {
+  opacity: 0.8;
+}
+.case .open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--oxide);
+  font-weight: 500;
+}
+.case .open svg {
+  width: 11px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+#page.deck-on .case {
+  animation: deal 0.72s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc(620ms + var(--i) * 90ms);
+}
+@keyframes deal {
+  from {
+    opacity: 0;
+    translate: 0 -70px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+#page:not(.deck-on) .case {
+  animation: undeal 0.34s cubic-bezier(0.5, 0, 0.85, 0.4) forwards;
+  animation-delay: calc((var(--n, 1) - 1 - var(--i)) * 45ms);
+}
+@keyframes undeal {
+  to {
+    opacity: 0;
+    translate: 0 -70px;
+  }
+}
+@media (max-width: 640px) {
+  .deck-top,
+  .deck-front {
+    padding: 0 12px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+  .deck-tools {
+    gap: 14px;
+  }
+  #sortBtn .lg,
+  #newCase .lg,
+  .deck-front .lg {
+    display: none;
+  }
+  #sortBtn .sm {
+    display: inline;
+  }
+  .deck-well {
+    margin: 0 6px;
+  }
+  .deck-well::before,
+  .deck-well::after {
+    width: 6px;
+  }
+  .case {
+    left: 5%;
+    right: 5%;
+  }
+  .case-body {
+    padding: 0 16px;
+  }
+  .case-tab {
+    width: 22%;
+    min-width: 76px;
+    padding-left: 10px;
+    letter-spacing: 0.08em;
+  }
+  .case-head strong {
+    max-width: 82%;
+    font-size: clamp(17px, calc(var(--pitch) * 0.3), 19px);
+  }
+  .case-more {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding-top: 9px;
+  }
+  .case .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 12px;
+    font-size: 9px;
+  }
+  .case .sum {
+    font-size: 13.5px;
+    min-height: 38px;
+  }
+  .case-foot {
+    margin-top: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #deck,
+  .frame,
+  .desk-rule,
+  .case {
+    transition: none !important;
+  }
+  #page.deck-on .case,
+  #page:not(.deck-on) .case {
+    animation: none;
+  }
+}
+.empty-drawer {
+  position: absolute;
+  inset: 0 8% 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  color: var(--muted);
+}
+.empty-drawer strong {
+  font: 500 24px var(--display);
+  color: var(--mist);
+  letter-spacing: -0.01em;
+}
+.empty-drawer span {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 340px;
+}
+#deck .empty-drawer .tool {
+  margin-top: 6px;
+  padding: 10px 16px;
+  border: 1px solid var(--accent-line);
+  color: var(--glow);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+#deck .empty-drawer .tool:hover {
+  border-color: var(--glow);
+}
+
+/* ---------- removing a case file ----------
+   "Remove case file" (beside "New case file") turns on remove mode: the next file chosen is the one to remove,
+   and the bar across the top of the drawer asks before anything is deleted. See js/drawer.js. */
+#deck #newCase.removing {
+  color: #f0b9ae;
+}
+#deck #newCase.removing .caret {
+  display: none;
+}
+#rmBar {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 10px 16px;
+  background: #3a120c;
+  border-bottom: 1px solid rgba(240, 185, 174, 0.35);
+  color: #f3dcd6;
+  font-size: 12px;
+  line-height: 1.4;
+}
+#rmBar[hidden] {
+  display: none;
+}
+#rmBar b {
+  color: #fff;
+  font-weight: 600;
+}
+#deck #rmBar button {
+  margin: 0;
+  padding: 5px 12px;
+  border: 1px solid rgba(240, 185, 174, 0.6);
+  border-radius: 2px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+#deck #rmBar button.yes {
+  border-color: var(--oxide-hi);
+  background: var(--oxide-hi);
+  color: #fff;
+}
+/* in remove mode a file is chosen, not opened */
+.rm-mode #files .case .open {
+  visibility: hidden;
+}
+
+/* ---------- the "Add or remove" menu ----------
+   The same look as the sort menu, with two choices: a new case file, or removing one. */
+.case-wrap {
+  position: relative;
+  display: inline-flex;
+}
+#deck #newCase .caret {
+  width: 11px;
+  height: 11px;
+  margin-left: -3px;
+  transition: transform 0.2s;
+}
+#deck #newCase[aria-expanded="true"] .caret {
+  transform: rotate(180deg);
+}
+#caseMenu {
+  position: absolute;
+  right: -9px;
+  top: calc(100% + 7px);
+  z-index: 6;
+  display: grid;
+  gap: 2px;
+  min-width: 250px;
+  padding: 6px;
+  border: 1px solid rgba(127, 184, 192, 0.32);
+  background: #0b272c;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  animation: menu-in 0.16s ease-out;
+}
+#caseMenu[hidden] {
+  display: none;
+}
+#caseMenu .k {
+  padding: 6px 10px 5px;
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+}
+#deck #caseMenu button {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  margin: 0;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#deck #caseMenu button svg {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#caseMenu button small {
+  margin-left: auto;
+  padding-left: 14px;
+  color: var(--faint);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+}
+#deck #caseMenu button:hover {
+  color: var(--mist);
+  background: rgba(68, 134, 144, 0.14);
+}
+#deck #caseMenu button:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: -2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #caseMenu {
+    animation: none;
+  }
+}

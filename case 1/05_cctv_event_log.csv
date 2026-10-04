@@ -1,0 +1,5 @@
+clip_id,camera_id,start_time,end_time,event_type,description,operator_note
+CLIP-0447,LOTA-CAM-02,2026-10-02 23:44:50,2026-10-02 23:46:10,motion,person running toward vehicle row,face not visible; hood up
+CLIP-0448,LOTA-CAM-02,2026-10-02 23:46:10,2026-10-02 23:47:40,motion,vehicle door closes then vehicle departs,dark sedan; color unclear under sodium lighting
+CLIP-0449,LOTA-CAM-03,2026-10-02 23:48:00,2026-10-02 23:48:30,vehicle,sedan exits onto Navarro St,plate not legible
+CLIP-0450,LOTA-CAM-02,2026-10-02 23:30:00,2026-10-02 23:31:00,motion,pedestrian walking south,unrelated; no hood

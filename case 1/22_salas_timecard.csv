@@ -1,0 +1,5 @@
+employee,date,event,time,notes
+E. Salas,2026-10-02,clock_in,18:00,Casa Verde Grill
+E. Salas,2026-10-02,break_start,23:28,
+E. Salas,2026-10-02,break_end,23:50,no badge scan for back door
+E. Salas,2026-10-03,clock_out,01:07,

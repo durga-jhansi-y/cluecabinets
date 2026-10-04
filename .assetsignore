@@ -1,0 +1,14 @@
+# Everything listed here is left OUT of the public website.
+# Only index.html, css/ and js/ are published.
+.git/
+.github/
+.gitattributes
+.gitignore
+backend/
+case */
+docs/
+node_modules/
+README.md
+wrangler.jsonc
+.assetsignore
+*.md

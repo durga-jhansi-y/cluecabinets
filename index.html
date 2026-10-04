@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>The Case Cabinet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<!-- Styles: one file per part of the page. Keep this order. -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/cabinet.css">
+<link rel="stylesheet" href="css/drawer.css">
+<link rel="stylesheet" href="css/cabinet-list.css">
+<link rel="stylesheet" href="css/folder.css">
+<link rel="stylesheet" href="css/review.css">
+<link rel="stylesheet" href="css/pinboard.css">
+</head>
+<body>
+<!-- ========== The page: header, statement, and the bay that holds the cabinet ========== -->
+<main id="page">
+ <div class="grain"></div>
+ <header class="site-header">
+  <a class="brand" href="#" aria-label="The Case Cabinet home">
+   <span class="brand-mark"><b>CC</b></span>
+   <span class="brand-name"><strong>The Case Cabinet</strong><small>Private evidence archive</small></span>
+  </a>
+  <div class="security-note" aria-live="polite">
+   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10V7.6a4.5 4.5 0 0 1 9 0V10M6 10h12v10H6z"/></svg>
+   <span id="secnote">Protected &amp; encrypted</span>
+  </div>
+ </header>
+
+ <section class="hero">
+  <div class="copy">
+   <div class="locked-copy">
+    <div class="eyebrow"><span>Est. 2026</span><i></i><span>Confidential records</span></div>
+    <h1>Every detail, <em>filed with purpose.</em></h1>
+    <p class="intro">A private, organized space to collect evidence, preserve records, and build a case with clarity.</p>
+   </div>
+   <div class="open-copy" aria-hidden="true">
+    <div class="eyebrow"><span id="cabName">Cabinet 01</span><i></i><span><b id="statFiles">04</b> <span id="statWord">active files</span> &middot; <b id="statDocs">24</b> pieces of evidence</span></div>
+   </div>
+  </div>
+
+  <div class="bay">
+   <!-- the cabinets list, drawn by js/cabinet-list.js -->
+   <nav id="rail" aria-label="Cabinets"></nav>
+   <div class="desk-rule"><span>Evidence archive</span></div>
+   <div class="visual">
+    <!-- the 3D cabinet is built inside #world by js/cabinet.js; its drawer face is the sign-in form -->
+    <div class="stagewrap"><div class="frame"><div id="stage"><div id="world"><div id="shadow"></div></div></div></div></div>
+    <!-- the open drawer, seen from the front: the case files are drawn into #files by js/drawer.js -->
+    <div id="deck" aria-hidden="true">
+     <div class="deck-top">
+      <span id="deckLabel">Active case files</span>
+      <span class="deck-tools">
+       <span class="case-wrap">
+        <!-- one control for adding and removing case files: it opens a menu with the two choices -->
+        <button class="tool" id="newCase" type="button" aria-label="Add or remove a case file" aria-haspopup="menu" aria-expanded="false" aria-controls="caseMenu">
+         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.500v5M2.500 5h5M8.500 11h5"/></svg>
+         <span class="lg" id="caseBtnText">Add or remove</span>
+         <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.500l3 3 3-3"/></svg>
+        </button>
+        <!-- the two choices, drawn by js/drawer.js -->
+        <div id="caseMenu" role="menu" aria-label="Case files" hidden></div>
+       </span>
+       <span class="sort-wrap">
+        <button class="tool" id="sortBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="sortMenu">
+         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M4 8h8M6.5 12h3"/></svg>
+         <span class="lg">Sort: <span id="sortName">recently updated</span></span>
+         <span class="sm" id="sortShort">Recent</span>
+         <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+        </button>
+        <!-- the sort options, drawn by js/drawer.js -->
+        <div id="sortMenu" role="menu" aria-label="Sort case files by" hidden></div>
+       </span>
+      </span>
+     </div>
+     <div class="deck-well"><div id="rmBar" role="status" hidden></div><div id="files"></div></div>
+     <div class="deck-front">
+      <span id="deckWhere">Cabinet 01<span class="lg"> / Drawer 01</span></span>
+      <button class="deck-pull" id="deckPull" type="button" aria-label="Lock cabinet" title="Lock cabinet"></button>
+      <span>Cases A&ndash;H</span>
+     </div>
+    </div>
+   </div>
+   <div class="archive-actions">
+    <p class="cabinet-status"><span class="status-light"></span><span id="statusText">Archive secured</span></p>
+    <button id="btn" type="button">Sign in on the drawer</button>
+   </div>
+  </div>
+ </section>
+</main>
+
+<!-- ========== Pin board: its own screen, opened from a folder (js/pinboard.js) ========== -->
+<div id="board" role="dialog" aria-modal="true" aria-labelledby="pbTitle" hidden>
+ <header class="pb-head">
+  <button type="button" class="pb-back" id="pbBack"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M8 2 4 6l4 4"/></svg><span>Back<span class="lg"> to folder</span></span></button>
+  <div class="pb-name"><small id="pbKick">Pin board</small><h2 id="pbTitle"></h2></div>
+  <button type="button" class="pb-evbtn" id="pbEvBtn" aria-controls="pbPanel" aria-expanded="false">Evidence <b id="pbEvN">0</b></button>
+  <div class="pb-filters" id="pbFilters" role="group" aria-label="Show on the board"></div>
+ </header>
+ <div class="pb-main">
+  <div class="pb-wall">
+   <div class="pb-surface" id="pbSurface">
+    <svg id="pbLines" aria-hidden="false"></svg>
+    <div id="pbNodes"></div>
+    <div class="pb-empty" id="pbEmpty" hidden><i class="head"></i><strong>Nothing pinned yet</strong><span>Add a piece of evidence with the people, places and objects in it. Each one is pinned up here, and anything that appears together is joined by a string.</span><button type="button" id="pbEmptyAdd">Add evidence</button></div>
+    <div class="pb-tip" id="pbTip" hidden></div>
+   </div>
+   <aside class="pb-panel" id="pbPanel" aria-live="polite" hidden></aside>
+   <div class="pb-legend" aria-label="Key">
+    <span><i></i>Appear together in evidence; thicker means more</span>
+    <span><i class="lg-dash"></i>Tied by a cross-reference only</span>
+    <span><b>2</b>Pieces of evidence behind a string, shown from two up</span>
+    <button type="button" id="pbTidy">Tidy layout</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ========== Review screen: uploaded files and the type each was given (js/upload.js) ========== -->
+<div id="review" role="dialog" aria-modal="true" aria-labelledby="rvTitle" hidden>
+ <header class="pb-head">
+  <button type="button" class="pb-back" id="rvBack"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M8 2 4 6l4 4"/></svg><span>Back<span class="lg"> to folder</span></span></button>
+  <div class="pb-name"><small id="rvKick">Review upload</small><h2 id="rvTitle"></h2></div>
+ </header>
+ <div class="rv-main"><div class="rv-wrap">
+  <h3 class="rv-h" id="rvCount"></h3>
+  <p class="rv-lead">Each file has been reviewed and given a type. Check them, change any that are wrong, then press Go to add the files to this folder.</p>
+  <ol class="rv-list" id="rvList"></ol>
+ </div></div>
+ <footer class="rv-foot">
+  <span id="rvSum" role="status"></span>
+  <button type="button" id="rvCancel">Cancel</button>
+  <button type="button" id="rvGo">Go</button>
+ </footer>
+</div>
+
+<!-- ========== Folder: the book that opens from a case file (js/folder.js, js/folder-pages.js) ==========
+     #cv is the cover (.cf front, .cb back with the left page #lp); #rp holds the tabs and the right page #pg -->
+<div id="bw"><div id="bd"></div>
+<div id="book" class="pre" role="dialog" aria-modal="true" aria-label="Open folder">
+ <div id="rp"><div id="tabs" role="tablist"></div><div id="paper"><div id="pg" role="tabpanel"></div></div></div>
+ <div id="cv"><div class="cf"><div id="ctab"></div><div class="lab" id="clab"></div></div><div class="cb"><div id="lp"></div></div></div>
+ <div id="bookBar">
+  <button id="xb" type="button">Close folder</button>
+ </div>
+</div></div>
+
+<!-- Scripts. Order matters: each one uses what the ones before it define. -->
+<script src="js/config.js"></script> <!-- settings: sign-in, limits, statuses, tabs, evidence types -->
+<script src="js/util.js"></script> <!-- small helpers -->
+<script src="js/state.js"></script> <!-- cabinets, case files, folders, file types, accounts -->
+<script src="js/backend.js"></script> <!-- stand-ins for the server -->
+<script src="js/cabinet.js"></script> <!-- the 3D cabinet and its motion -->
+<script src="js/sign-in.js"></script> <!-- signing in and locking -->
+<script src="js/folder.js"></script> <!-- the folder book: tabs, opening, closing -->
+<script src="js/folder-pages.js"></script> <!-- what is on the folder's pages -->
+<script src="js/new-case.js"></script> <!-- creating a case file -->
+<script src="js/drawer.js"></script> <!-- the page and the open drawer of case files -->
+<script src="js/cabinet-list.js"></script> <!-- the cabinets list and switching -->
+<script src="js/pinboard.js"></script> <!-- the pin board -->
+<script src="js/upload.js"></script> <!-- uploading and reviewing files -->
+<script src="js/main.js"></script> <!-- start-up -->
+</body>
+</html>

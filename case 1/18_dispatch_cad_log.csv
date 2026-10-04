@@ -1,0 +1,8 @@
+event_id,timestamp,unit,action,detail
+CAD-88213,2026-10-02 23:50:12,DISPATCH,call_received,Theft reported Riverwalk North Path / Navarro bridge
+CAD-88213,2026-10-02 23:50:58,4821,dispatched,Officer L. Sandoval en route
+CAD-88214,2026-10-02 23:53:41,DISPATCH,call_received,Anonymous female caller reports running male near Navarro bridge
+CAD-88213,2026-10-03 00:03:09,4821,on_scene,Arrived Riverwalk North Path
+CAD-88213,2026-10-03 00:14:00,4821,report_started,Initial response report opened
+CAD-88213,2026-10-03 00:41:00,4821,statement_taken,Witness statement - R. Delgado
+CAD-88213,2026-10-03 02:05:00,4821,evidence_transferred,Property room intake

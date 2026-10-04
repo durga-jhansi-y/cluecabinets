@@ -1,0 +1,16 @@
+911 CALL TRANSCRIPT (AUTO-GENERATED, TIMESTAMPED)
+Case ID: CASE-001
+Call received: 23:50:12
+
+[00:00] DISPATCHER: 911, what's your emergency?
+[00:03] CALLER: Somebody just stole my watch. On the Riverwalk, by the Navarro bridge.
+[00:09] DISPATCHER: Are you hurt, sir?
+[00:11] CALLER: No, no, I'm okay. He bumped into me really hard and then I felt my wrist, and the watch was gone.
+[00:19] DISPATCHER: Can you describe him?
+[00:22] CALLER: Tall, I think. Dark hoodie. I only saw him for a second, it's really dark down here.
+[00:30] DISPATCHER: Which way did he go?
+[00:33] CALLER: Toward the parking lot. Lot A.
+[00:38] DISPATCHER: What's your name?
+[00:40] CALLER: Daniel Price.
+[00:44] DISPATCHER: Stay where you are, an officer is on the way.
+[00:49] CALLER: Okay. It was a gold watch, it was my father's.

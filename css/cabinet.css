@@ -1,0 +1,427 @@
+/* The cabinet: the bay it sits in, the 3D stage, the sign-in panel on the drawer face, and the zoom in and out
+   when the cabinet is unlocked or locked. */
+
+.desk-rule {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--accent-line);
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.visual {
+  flex: 1;
+  min-height: clamp(300px, 42vh, 560px);
+  position: relative;
+  display: flex;
+}
+.visual::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(520px, 88%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(68, 134, 144, 0.16);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 70px rgba(68, 134, 144, 0.03),
+    0 0 0 140px rgba(68, 134, 144, 0.018);
+}
+.archive-actions {
+  position: relative;
+  z-index: 3;
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 calc(18px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+}
+.cabinet-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.status-light {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 9px var(--ember);
+  transition:
+    background 0.4s,
+    box-shadow 0.4s;
+}
+.stagewrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  overflow: clip;
+} /* the cabinet's window: nothing in it draws outside */
+.frame {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  position: relative;
+}
+#page.archive-open .visual {
+  min-height: max(clamp(300px, 42vh, 560px), var(--deck-min, 454px));
+}
+.desk-rule {
+  transition: opacity 0.35s ease;
+}
+/* locking is the unlock played backwards: the cabinet returns from close up with its drawer still out, and the drawer shuts as the view pulls back */
+.frame {
+  transform-origin: 50% 58%;
+  transition:
+    opacity 0.34s ease-out 0.6s,
+    transform 0.62s cubic-bezier(0.15, 0.6, 0.5, 1) 0.6s;
+}
+#page.deck-on .desk-rule {
+  opacity: 0;
+}
+/* unlocking: the drawer comes at the camera, the cabinet blows past and the drawer view arrives out of it */
+#page.deck-on .frame {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.3);
+  transition:
+    opacity 0.32s ease-in 0.1s,
+    transform 0.55s cubic-bezier(0.5, 0, 0.85, 0.4),
+    visibility 0s linear 0.44s;
+}
+
+/* ---------- cabinet stage (structure untouched) ---------- */
+#stage {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1100px;
+  min-height: 0;
+}
+/* the scaled stage box must not swallow clicks meant for the page around it */
+#stage {
+  pointer-events: none;
+}
+#world {
+  position: relative;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  pointer-events: auto;
+}
+.d3 {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+.f {
+  position: absolute;
+  backface-visibility: visible;
+}
+#shadow {
+  position: absolute;
+  left: -150px;
+  top: -116px;
+  width: 300px;
+  height: 420px;
+  background: radial-gradient(closest-side, var(--floor) 55%, transparent);
+  filter: blur(10px);
+  transform: rotateX(90deg) translateZ(0);
+}
+
+/* drawer face = sign-in panel, drawn at 920x560 and placed on the drawer front at quarter scale, so its type stays sharp when the cabinet is large */
+.login {
+  box-sizing: border-box;
+  padding: 32px 60px 0;
+  border: 2px solid #3d7d88;
+  color: var(--mist);
+  font-family: var(--sans);
+  box-shadow:
+    inset 0 2px rgba(255, 255, 255, 0.13),
+    inset 0 -16px 30px rgba(0, 0, 0, 0.3);
+}
+.login::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 2px solid rgba(127, 184, 192, 0.2);
+  pointer-events: none;
+}
+.login .in {
+  position: relative;
+  z-index: 1;
+}
+.drawer-login-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+.login .ttl {
+  color: var(--glow);
+  font: 600 18px var(--sans);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.drawer-login-heading strong {
+  font: 500 34px/1.3 var(--display);
+  color: var(--mist);
+  white-space: nowrap;
+}
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 2px solid rgba(211, 227, 227, 0.14);
+  margin-bottom: 22px;
+}
+.auth-tabs button {
+  position: relative;
+  margin: 0;
+  padding: 0 10px 18px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: rgba(211, 227, 227, 0.5);
+  font: 600 20px/1.3 var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.auth-tabs button::after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  right: 50%;
+  bottom: -2px;
+  left: 50%;
+  background: #a12a17;
+  transition:
+    left 0.3s ease,
+    right 0.3s ease;
+}
+.auth-tabs button.active {
+  color: var(--mist);
+}
+.auth-tabs button.active::after {
+  right: 0;
+  left: 0;
+}
+.auth-tabs button:focus-visible {
+  outline: 2px solid var(--glow);
+  outline-offset: -2px;
+}
+.drawer-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+.drawer-form label {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.drawer-form label span {
+  color: rgba(211, 227, 227, 0.7);
+  font: 600 20px/1.3 var(--sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.drawer-form .f-mail {
+  grid-column: 1/-1;
+}
+.login.create .drawer-form .f-mail {
+  grid-column: auto;
+}
+.drawer-form .f-pass {
+  grid-column: 1/-1;
+}
+.login input {
+  width: 100%;
+  min-width: 0;
+  height: 72px;
+  box-sizing: border-box;
+  margin: 0;
+  border: 2px solid rgba(211, 227, 227, 0.15);
+  border-radius: 0;
+  padding: 0 22px;
+  background: rgba(3, 10, 11, 0.5);
+  color: var(--mist);
+  font: 400 26px var(--sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.login input:focus {
+  border-color: var(--glow);
+}
+.login input::placeholder {
+  color: rgba(211, 227, 227, 0.34);
+}
+.login .go {
+  grid-column: 1/-1;
+  height: 72px;
+  margin: 0;
+  padding: 0 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  border: 2px solid var(--oxide-hi);
+  border-radius: 0;
+  background: var(--oxide);
+  color: var(--mist);
+  font: 600 22px var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: inset 0 2px rgba(255, 255, 255, 0.12);
+  transition: background 0.2s;
+}
+.login .go:hover {
+  background: var(--oxide-hi);
+}
+.login .go:focus-visible {
+  outline: 2px solid var(--mist);
+  outline-offset: 4px;
+}
+.login .go svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.login .grant {
+  display: none;
+  position: absolute;
+  inset: 0 0 80px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+.login .grant small {
+  color: var(--glow);
+  font: 600 24px var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.login .grant strong {
+  font: 500 italic 60px var(--display);
+  color: var(--mist);
+}
+.login.ok .in {
+  display: none;
+}
+.login.ok .grant {
+  display: flex;
+}
+.login.bad .ttl {
+  color: #f08a76;
+}
+.login.bad .in {
+  animation: shake 0.36s;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-20px);
+  }
+  40% {
+    transform: translateX(20px);
+  }
+  60% {
+    transform: translateX(-12px);
+  }
+  80% {
+    transform: translateX(12px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login.bad .in {
+    animation: none;
+  }
+  .auth-tabs button::after {
+    transition: none;
+  }
+}
+/* on phones the drawer is drawn smaller, so the panel drops its labels and enlarges what is left */
+@media (max-width: 520px) {
+  .login {
+    padding: 24px 44px 0;
+  }
+  .drawer-login-heading strong {
+    display: none;
+  }
+  .login .ttl {
+    font-size: 24px;
+  }
+  .auth-tabs {
+    margin-bottom: 18px;
+  }
+  .auth-tabs button {
+    font-size: 26px;
+    letter-spacing: 0.08em;
+  }
+  .drawer-form {
+    gap: 16px;
+  }
+  .drawer-form label span {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .drawer-form .f-mail,
+  .login.create .drawer-form .f-mail,
+  .drawer-form .f-pass,
+  .drawer-form .f-name {
+    grid-column: 1/-1;
+  }
+  .login input {
+    height: 90px;
+    font-size: 36px;
+  }
+  .login.create input {
+    height: 76px;
+    font-size: 34px;
+  }
+  .login.create .drawer-form {
+    gap: 12px;
+  }
+  .login .go {
+    height: 90px;
+    font-size: 28px;
+  }
+  .login.create .go {
+    height: 76px;
+  }
+}
+
+.fold .f {
+  pointer-events: none;
+}

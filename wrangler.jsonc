@@ -1,0 +1,7 @@
+{
+  // Tells Cloudflare what to publish: this folder, as a plain static website.
+  // "name" must match the name of the Worker in the Cloudflare dashboard.
+  "name": "cluecabinets",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./" }
+}
